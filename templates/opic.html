@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Opic Test</title>
+
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+
+    <!-- BootStrap   -->
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div>
+    <ul class="pager" style="text-align:right;padding-right: 3%">
+        <li><a href="/">처음으로</a></li>
+        <li><a onclick='showQuestion()' href="#">질문보기</a></li>
+        <li><a onclick='showHint()' href="#">힌트보기</a></li>
+        <li><a onclick='showAnswer()' href="#">대답보기기</a>
+    </ul>
+</div>
+
+<div class="text-center mb-4">
+    <h3 id="title">Question 1</h3>
+</div>
+
+<div class="text-center mb-4" style="padding: 5% 30% 2.5%;">
+    <h4 id="question" style="visibility: hidden">introduce your self.</h4>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-2">
+            <h4 id="hint" style="visibility: hidden" align="left">
+                - 도입 <br>
+                &nbsp;&nbsp;. 인사 </br>
+                </br>
+                - 본문1 </br>
+                &nbsp;&nbsp;. 간단한 소개 </br>
+                </br>
+                - 본문2 </br>
+                &nbsp;&nbsp;. 시험 목표 </br>
+                </br>
+                - 마무리 </br>
+                &nbsp;&nbsp;. 각오 </br>
+            </h4>
+        </div>
+
+        <div class="text-center col-md-2">
+            <img src="../static/resource/eva.jpeg" alt="Can't find the image"/>
+
+            <div>
+                <ul class="pager">
+                    <li><a onclick='playQuestion()' href="#">Play</a></li>
+                    <li><a onclick='nextQuestion()' href="#">Next</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <h4 id="answer" style="visibility: hidden" align="left">
+                Hello, Eva </br>
+                It's been a while since I had this test.  </br>
+                blah blah </br>
+            </h4>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    let audio = null;
+
+    function init() {
+        if (audio != null) audio.pause();
+
+        document.getElementById("question").style.visibility = "hidden"
+        document.getElementById("hint").style.visibility = "hidden"
+        document.getElementById("answer").style.visibility = "hidden"
+    }
+
+    function nextQuestion() {
+        init();
+        $.ajax({
+            url: "/next",
+            type: "GET",
+            contentType: "text/plain",
+            success: function (response) {
+                if (response === "None") {
+                    alert("시험이 종료 되었습니다. \n수고하셨습니다.");
+                    window.location.replace("/");
+                    return;
+                }
+                const obj = JSON.parse(response);
+                const curTitle = obj.title;
+                const curQuestion = obj.question;
+                const curHint = obj.hint;
+                const curAnswer = obj.answer;
+                document.getElementById("title").innerText = curTitle;
+                document.getElementById("question").innerText = curQuestion;
+                document.getElementById("hint").innerText = curHint.replaceAll(" .", "\xa0\xa0.");
+                document.getElementById("answer").innerText = curAnswer;
+            }
+        });
+    }
+
+    function playQuestion() {
+        if (audio != null) audio.pause();
+        let curTitle = document.getElementById("title").innerText
+        let basePath = "../static/resource/questions/"
+        if (curTitle === "Question 1")
+            basePath = "../static/resource/introduce/"
+
+        console.log(basePath.concat(curTitle, ".mp3"))
+        audio = new Audio(basePath.concat(curTitle, ".mp3"));
+        audio.play();
+    }
+
+    function showQuestion() {
+        document.getElementById("question").style.visibility = "visible"
+    }
+
+    function showHint() {
+        document.getElementById("hint").style.visibility = "visible"
+    }
+
+    function showAnswer() {
+        document.getElementById("answer").style.visibility = "visible"
+    }
+
+</script>
+</body>
+</html>
+
