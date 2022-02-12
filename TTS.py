@@ -38,7 +38,7 @@ audio_config = texttospeech.AudioConfig(
 )
 
 
-def create_audio(title, question):
+def create_audio(question_number, question):
     # Perform the text-to-speech request on the text input with the selected
     # voice parameters and audio file type
     synthesis_input = texttospeech.SynthesisInput(text=question)
@@ -48,7 +48,7 @@ def create_audio(title, question):
     )
 
     # The response's audio_content is binary.
-    with open(audio_path + title + ".mp3", "wb") as out:
+    with open(audio_path + question_number + ".mp3", "wb") as out:
         # Write the response to the output file.
         out.write(response.audio_content)
-        print("Audio content written to file " + title + ".mp3")
+        print("Audio content written to file " + question_number + ".mp3")

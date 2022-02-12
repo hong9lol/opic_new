@@ -41,17 +41,16 @@ def next_question():
         print("마지막 문제")
         return "None"
         
-    
-    title = "Question " + str(current_question_index + 2)
+    question_number = "Question " + str(current_question_index + 2)
     question = str(questions[current_question_index][1])
     hint = str(questions[current_question_index][2])
     answer = str(questions[current_question_index][3])
     
-    create_audio(title, question)    
+    create_audio(question_number, question)
 
     current_question_index += 1
 
-    return json.dumps({"title": title, "question": question, "hint": hint, "answer": answer})
+    return json.dumps({"questionNumber": question_number, "question": question, "hint": hint, "answer": answer})
 
 def get_specific_questions(set_cnt, sources):
     questions = []
