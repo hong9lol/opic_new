@@ -140,3 +140,5 @@ cython_debug/
 .idea
 *.xlsx
 static/resource/questions/*.mp3
+
+tts_key

@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="cache-control" content="no-store" />
+    <meta http-equiv="pragma" content="no-cache" />
     <title>Opic Test</title>
 
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
@@ -28,6 +30,7 @@
 
 <div class="text-center mb-4">
     <h3 id="question_number">Question 1</h3>
+    <h3 id="uuid" style="visibility: hidden"></h3>
 </div>
 
 <div class="text-center mb-4" style="padding: 5% 30% 2.5%;">
@@ -102,10 +105,13 @@
                 const curQuestion = obj.question;
                 const curHint = obj.hint;
                 const curAnswer = obj.answer;
+                const curUuid = obj.question_uuid;
                 document.getElementById("question_number").innerText = curQuestionNum;
                 document.getElementById("question").innerText = curQuestion;
                 document.getElementById("hint").innerText = curHint.replaceAll(" .", "\xa0\xa0.");
                 document.getElementById("answer").innerText = curAnswer;
+                document.getElementById("answer").innerText = curAnswer;
+                document.getElementById("uuid").value = curUuid;
             }
         });
     }
@@ -113,12 +119,20 @@
     function playQuestion() {
         if (audio != null) audio.pause();        
         let curQuestionNum = document.getElementById("question_number").innerText
-        let basePath = "../static/resource/questions/"
+        let curUuid = document.getElementById("uuid").value
+        let basePath = "../static/resource/audios/"
         if (curQuestionNum === "Question 1")
             basePath = "../static/resource/introduce/"
 
-        console.log(basePath.concat(curQuestionNum, ".mp3"))
-        audio = new Audio(basePath.concat(curQuestionNum, ".mp3"));
+        console.log(curQuestionNum);
+        if (curQuestionNum == "Question 1") {
+            console.log(basePath.concat(curQuestionNum, ".mp3"))
+            audio = new Audio(basePath.concat(curQuestionNum, ".mp3"));
+        } else {
+
+            console.log(basePath.concat(curUuid, ".mp3"))
+            audio = new Audio(basePath.concat(curUuid, ".mp3"));
+        }
         audio.play();
     }
 

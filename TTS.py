@@ -4,11 +4,11 @@ Note: ssml must be well-formed according to:
     https://www.w3.org/TR/speech-synthesis/
 """
 from google.cloud import texttospeech
-import random
 import os
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]='C:\\Users\\homej\\Downloads\\jake-tts-4a9c6a3dd43b.json'
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getcwd() + '/static/resource/tts_key/jake_tts_key.json'
 # Instantiates a client
-from config import audio_path
+from config import audio_path, base_path
 
 client = texttospeech.TextToSpeechClient()
 
@@ -38,7 +38,10 @@ audio_config = texttospeech.AudioConfig(
 )
 
 
-def create_audio(question_number, question):
+def create_audio(question_uuid, question):
+    if os.path.exists(base_path + audio_path + question_uuid + ".mp3"):
+        return
+
     # Perform the text-to-speech request on the text input with the selected
     # voice parameters and audio file type
     synthesis_input = texttospeech.SynthesisInput(text=question)
@@ -48,7 +51,7 @@ def create_audio(question_number, question):
     )
 
     # The response's audio_content is binary.
-    with open(audio_path + question_number + ".mp3", "wb") as out:
+    with open(base_path + audio_path + question_uuid + ".mp3", "wb") as out:
         # Write the response to the output file.
         out.write(response.audio_content)
-        print("Audio content written to file " + question_number + ".mp3")
+        print("Audio content written to file " + question_uuid + ".mp3")
