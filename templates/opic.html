@@ -21,10 +21,14 @@
 <body>
 <div>
     <ul class="pager" style="text-align:right;padding-right: 3%">
+<!--        deprecated-->
+        <li><a style="visibility: hidden" onclick='showHint()' href="#">힌트보기</a></li>
+        <li><a style="visibility: hidden" onclick='showAnswer()' href="#">대답보기기</a>
+<!--        deprecated-->
+
+
         <li><a href="/">처음으로</a></li>
         <li><a onclick='showQuestion()' href="#">질문보기</a></li>
-        <li><a onclick='showHint()' href="#">힌트보기</a></li>
-        <li><a onclick='showAnswer()' href="#">대답보기기</a>
     </ul>
 </div>
 
@@ -39,24 +43,24 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-2">
-            <h4 id="hint" style="visibility: hidden" align="left">
-                - 도입 <br>
-                &nbsp;&nbsp;. 인사 </br>
-                </br>
-                - 본문1 </br>
-                &nbsp;&nbsp;. 간단한 소개 </br>
-                </br>
-                - 본문2 </br>
-                &nbsp;&nbsp;. 시험 목표 </br>
-                </br>
-                - 마무리 </br>
-                &nbsp;&nbsp;. 각오 </br>
-            </h4>
-        </div>
+<!--        <div class="col-md-3"></div>-->
+<!--        <div class="col-md-2">-->
+<!--            <h4 id="hint" style="visibility: hidden" align="left">-->
+<!--                - 도입 <br>-->
+<!--                &nbsp;&nbsp;. 인사 </br>-->
+<!--                </br>-->
+<!--                - 본문1 </br>-->
+<!--                &nbsp;&nbsp;. 간단한 소개 </br>-->
+<!--                </br>-->
+<!--                - 본문2 </br>-->
+<!--                &nbsp;&nbsp;. 시험 목표 </br>-->
+<!--                </br>-->
+<!--                - 마무리 </br>-->
+<!--                &nbsp;&nbsp;. 각오 </br>-->
+<!--            </h4>-->
+<!--        </div>-->
 
-        <div class="text-center col-md-2">
+        <div class="text-center">
             <img src="../static/resource/eva.jpeg" alt="Can't find the image"/>
 
             <div>
@@ -67,13 +71,13 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <h4 id="answer" style="visibility: hidden" align="left">
-                Hello, Eva </br>
-                It's been a while since I had this test.  </br>
-                blah blah </br>
-            </h4>
-        </div>
+<!--        <div class="col-md-4">-->
+<!--            <h4 id="answer" style="visibility: hidden" align="left">-->
+<!--                Hello, Eva </br>-->
+<!--                It's been a while since I had this test.  </br>-->
+<!--                blah blah </br>-->
+<!--            </h4>-->
+<!--        </div>-->
     </div>
 </div>
 
@@ -84,8 +88,8 @@
         if (audio != null) audio.pause();
 
         document.getElementById("question").style.visibility = "hidden"
-        document.getElementById("hint").style.visibility = "hidden"
-        document.getElementById("answer").style.visibility = "hidden"
+<!--        document.getElementById("hint").style.visibility = "hidden"-->
+<!--        document.getElementById("answer").style.visibility = "hidden"-->
     }
 
     function nextQuestion() {
@@ -108,9 +112,8 @@
                 const curUuid = obj.question_uuid;
                 document.getElementById("question_number").innerText = curQuestionNum;
                 document.getElementById("question").innerText = curQuestion;
-                document.getElementById("hint").innerText = curHint.replaceAll(" .", "\xa0\xa0.");
-                document.getElementById("answer").innerText = curAnswer;
-                document.getElementById("answer").innerText = curAnswer;
+<!--                document.getElementById("hint").innerText = curHint.replaceAll(" .", "\xa0\xa0.");-->
+<!--                document.getElementById("answer").innerText = curAnswer;-->
                 document.getElementById("uuid").value = curUuid;
             }
         });
